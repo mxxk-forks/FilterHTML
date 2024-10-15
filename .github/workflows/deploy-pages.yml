@@ -1,0 +1,19 @@
+on:
+  push:
+jobs:
+  job:
+    permissions:
+      contents: read
+      id-token: write
+      pages: write
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: |
+          mkdir build
+          tar -czf build/filterhtml.tar.gz package.json lib/FilterHTML.js
+          # rsync -R package.json lib/FilterHTML.js build
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: build
+      - uses: actions/deploy-pages@v4
